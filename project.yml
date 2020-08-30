@@ -1,0 +1,103 @@
+name: {Project Name}
+
+options:
+  # プリフィクスを指定すると、各ターゲットのバンドルIDが自動で「{プリフィクス}.{ターゲット名}」に設定される
+  bundleIdPrefix: {Bundle ID Prefix}
+  deploymentTarget:
+    iOS: 13.0
+  xcodeVersion: "11.6"
+  # findCarthageFrameworks: true # 余計なフレームワークまで追加されてしまうためコメントアウト
+  carthageExecutablePath: mint run Carthage/Carthage carthage
+
+targets:
+  {Project Name}:
+    type: application
+    platform: iOS
+    sources:
+      - {Project Name}
+      - path: "{Project Name}/Generated/R.generated.swift"
+        optional: true
+        type: file
+    settings:
+      base:
+        INFOPLIST_FILE: {Project Name}/Info.plist
+        # PRODUCT_BUNDLE_IDENTIFIER: {Bundle ID Prefix}.{Project Name} # `bundleIdPrefix` を指定しない場合はコメントイン
+        CODE_SIGN_ENTITLEMENTS: {Project Name}/{Project Name}.entitlements
+    dependencies:
+      # - carthage: Alamofire # 適宜必要なライブラリを追加
+    preBuildScripts:
+      - script: |
+                if mint list | grep -q 'R.swift'; then
+                  mint run R.swift rswift generate "$SRCROOT/$TARGET_NAME/Generated/R.generated.swift"
+                else
+                  echo "error: R.swift not installed; run 'mint bootstrap' to install"
+                  return -1
+                fi
+        name: Generate Resources with R.swift
+        inputFiles:
+          - $TEMP_DIR/rswift-lastrun
+        outputFiles:
+          - $SRCROOT/$TARGET_NAME/Generated/R.generated.swift
+      - script: |
+                mint run swiftformat
+        name: Run Swiftformat
+    postCompileScripts:
+      - script: |
+                if which mint >/dev/null; then
+                  mint run swiftlint swiftlint autocorrect --format
+                  mint run swiftlint swiftlint
+                else
+                  echo "warning: Mint not installed, download from https://github.com/yonaskolb/Mint"
+                fi
+        name: Run SwiftLint
+  {Project Name}Tests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - {Project Name}Tests
+    settings:
+      base:
+        INFOPLIST_FILE: {Project Name}Tests/Info.plist
+        # PRODUCT_BUNDLE_IDENTIFIER: {Bundle ID Prefix}.{Project Name}Tests
+    dependencies:
+      - target: {Project Name}
+
+  {Project Name}UITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources:
+      - {Project Name}UITests
+    settings:
+      base:
+        INFOPLIST_FILE: {Project Name}UITests/Info.plist
+        # PRODUCT_BUNDLE_IDENTIFIER: {Bundle ID Prefix}.{Project Name}UITests
+    dependencies:
+      - target: {Project Name}
+
+schemes:
+  {Project Name}:
+    build:
+      targets:
+        {Project Name}: all
+        # {Project Name}Tests: [test] # デフォルト？
+        # {Project Name}UITests: [test] # デフォルト？
+    run:
+      config: Debug
+    test:
+      config: Debug
+      gatherCoverageData: true
+      coverageTargets:
+        - {Project Name}
+      targets:
+        - name: {Project Name}Tests
+          parallelizable: true
+          randomExecutionOrder: true
+        - name: {Project Name}UITests
+          parallelizable: true
+          randomExecutionOrder: true
+    profile:
+      config: Release
+    analyze:
+      config: Debug
+    archive:
+      config: Release
