@@ -23,6 +23,8 @@ targets:
         INFOPLIST_FILE: {Project Name}/Info.plist
         # PRODUCT_BUNDLE_IDENTIFIER: {Bundle ID Prefix}.{Project Name} # `bundleIdPrefix` を指定しない場合はコメントイン
         CODE_SIGN_ENTITLEMENTS: {Project Name}/{Project Name}.entitlements
+        MARKETING_VERSION: 1.0.0 
+        CURRENT_PROJECT_VERSION: 1
     dependencies:
       # - carthage: Alamofire # 適宜必要なライブラリを追加
     preBuildScripts:
