@@ -1,6 +1,7 @@
 # iOSInitialSetting
 
 
+* `project.yml` 内の `bundleIdPrefix` を任意のものに変更する。
 * `Makefile`, `project.yml`, `.swiftlint.yml`内の `{Project Name}` を任意のプロジェクト名に変更する。
 
 
