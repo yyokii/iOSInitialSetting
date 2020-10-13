@@ -4,6 +4,14 @@
 * `project.yml` 内の `bundleIdPrefix` を任意のものに変更する。
 * `Makefile`, `project.yml`, `.swiftlint.yml`内の `{Project Name}` を任意のプロジェクト名に変更する。
 
+## Previewがfailする
+
+firebaseを導入したプロジェクトで発生する可能性があります。
+
+暫定対応となりますが、Schemeの設定で `Code Coverage` をオフにすることで解消されます。
+
+参考: [Can't render SwiftUI canvas with Code Coverage Enabled #6219](https://github.com/firebase/firebase-ios-sdk/issues/6219)
+
 ## エラー: Double-quoted ~
 
 PodsプロジェクトのBuild SettingsにてQuoted include in Framework Headerの設定をNoに変更する
