@@ -21,7 +21,9 @@ DerivedData/
 xcuserdata/
 
 ## Project
+Generated/
 *.xcodeproj
+*.xcodeproj/project.pbxproj
 *.xcworkspace
 
 ## Other
