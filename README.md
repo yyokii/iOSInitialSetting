@@ -1,7 +1,6 @@
 
 
-* `{Project Name}`的な表現が統一されていない
-* またそれを置き換えるスクリプトがない
+* `{Project Name}`を置き換えるスクリプトがない
 
 
 # iOSInitialSetting
