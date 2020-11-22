@@ -12,14 +12,13 @@ TEST_DESTINATION := 'platform=${TEST_PLATFORM},name=${TEST_DEVICE},OS=${TEST_OS}
 
 .PHONY: start
 start:
-	make bootstrap
+	make install
 	make create-project
 
-.PHONY: bootstrap
-bootstrap:
-	brew update
-	brew install mint
-	mint bootstrap
+.PHONY: install
+install: install-mint
+install-mint:
+	sh Scripts/Mint/mint-install.sh
 
 .PHONY: create-project
 create-project:
