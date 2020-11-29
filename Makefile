@@ -24,6 +24,23 @@ install-mint:
 create-project:
 	mint run yonaskolb/XcodeGen xcodegen generate
 
+# cocoapodsを利用している場合
+# .PHONY: intall
+# install: install-mint install-gems
+# install-mint:
+# 	sh Scripts/Mint/mint-install.sh 
+# install-gems:
+# 	sh Scripts/Ruby/bundle-install.sh	
+
+# .PHONY: create-project
+# create-project:
+# 	mint run yonaskolb/XcodeGen xcodegen generate
+# 	sh Scripts/Cocoapods/pod-install.sh
+
+# .PHONY: open
+# open:
+# 	open ./${PRODUCT_NAME}.xcworkspace
+
 .PHONY: show-devices
 show-devices:
 	instruments -s devices
